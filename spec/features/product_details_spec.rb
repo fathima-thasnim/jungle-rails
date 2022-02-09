@@ -16,14 +16,32 @@ RSpec.feature "ProductDetails", type: :feature, js: true do
   end
   
   
-    scenario "They see the product details" do
-      # ACT
-      visit root_path
-      first('article.product').find_link('Details').click
-  
-      # DEBUG / VERIFY
-      save_screenshot
-      expect(page).to have_css 'article.product-detail'
-  
-    end
+  scenario "User clicks on product details" do
+    # ACT
+    visit root_path
+
+    # VERIFY
+    expect(page).to have_css('article.product', count: 10)
+    # expect(page).to have_text('64.99')
+    page.first("article.product").click_on("Details")
+
+    # DEBUG
+    save_screenshot('product_hover.png')
+
+    # VERIFY
+    expect(page).to have_css 'section.products-show'
+    # expect(page).to have_text('Quantity')
+  end
+
+  scenario "User sees product details" do
+    # ACT
+    visit "products/1"
+
+    # DEBUG
+    save_screenshot('product_details.png')
+
+    # VERIFY
+    expect(page).to have_css 'section.products-show'
+    # expect(page).to have_text('Quantity')
+  end
 end
